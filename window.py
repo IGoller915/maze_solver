@@ -10,4 +10,11 @@ class Window:
         self.canvas.pack()
         self.running = False
 
-    
+    def redraw(self):
+        self.root.update()
+        self.root.update_idletasks()
+
+    def wait_for_close(self):
+        self.running = True
+        while self.running == True:
+            self.redraw()
