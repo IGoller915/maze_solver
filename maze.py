@@ -90,3 +90,8 @@ class Maze:
                 new_cell.has_top_wall = False
 
             self._break_walls_r(new_coords[0], new_coords[1])
+
+    def _reset_cells_visited(self):
+        for i in range(self._num_cols):
+            for j in range(self._num_rows):
+                self._cells[i][j].visited = False
