@@ -49,7 +49,7 @@ class Maze:
         if self._win is None:
             return
         self._win.redraw()
-        time.sleep(0.005)
+        time.sleep(0.05)
     
     def _break_entrance_and_exit(self):
         tl_cell = self._cells[0][0]
@@ -95,3 +95,33 @@ class Maze:
         for i in range(self._num_cols):
             for j in range(self._num_rows):
                 self._cells[i][j].visited = False
+
+    def solve(self):
+        return self._solve_r(0, 0)
+    
+    def _solve_r(self, i, j):
+        self._animate()
+        current_cell = self._cells[i][j]
+        current_cell.visited = True
+        if i == self._num_cols - 1 and j == self._num_rows - 1:
+            return True
+        
+        adjacent = []
+        if current_cell.has_right_wall == False:
+            adjacent.append([i+1, j])
+        if current_cell.has_bottom_wall == False:
+            adjacent.append([i, j+1])
+        if current_cell.has_left_wall == False:
+            adjacent.append([i-1, j])
+        if current_cell.has_top_wall == False:
+            adjacent.append([i, j-1])
+        
+        for cell in adjacent:
+            if 0 <= cell[0] < self._num_cols and 0 <= cell[1] < self._num_rows and self._cells[cell[0]][cell[1]].visited == False:
+                new_cell = self._cells[cell[0]][cell[1]]
+                current_cell.draw_move(new_cell)
+                if self._solve_r(cell[0], cell[1]):
+                    return True
+                else:
+                    current_cell.draw_move(new_cell, True)
+        return False

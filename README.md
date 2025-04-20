@@ -1,0 +1,1 @@
+A maze generating and solving script.
